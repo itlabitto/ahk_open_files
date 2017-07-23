@@ -16,50 +16,49 @@ ExitApp
 IfMsgBox, Timeout
 ExitApp
 
-Loop, read, %file_path%
-{
-Loop, parse, A_LoopReadLine, %A_Tab%
-{
-counter += %A_Index%
-}
-}
+Loop, read, %file_path% {
+  Loop, parse, A_LoopReadLine, %A_Tab% {
+    counter += %A_Index%
+    }
+  }
+
 part := 100 / counter
 part2 := part
-Loop, read, %file_path%
-{
-Loop, parse, A_LoopReadLine, %A_Tab%
-{
-Progress, b FM11 fs10 CBGreen CWGray CTBlack w500, %A_LoopField% %A_Space%, Opening..., Opening, Verdana
-Try
-{
-Run, %A_LoopField%
+
+Loop, read, %file_path% {
+  Loop, parse, A_LoopReadLine, %A_Tab% {
+    Progress, b FM11 fs10 CBGreen CWGray CTBlack w500, %A_LoopField% %A_Space%, Opening..., Opening, Verdana
+    Try {
+      Run, %A_LoopField%
+    }
+    catch e {
+      Progress, Off
+      Progress, b FM11 fs10 CBRed CWGray CTBlack w500, Invalid path or filename`r`n`r`n%A_LoopField%, Cannot Open, Opening, Verdana
+      Progress, %part%
+      WinMove, Opening, , 0, 0
+      MsgBox, 262160, ,Error:`r`nCannot continue because of invalid path or filename at:`r`n`r`n%A_LoopField%`r`n`r`nSolution:`r`nCorrect or remove the invalid path/filename in your configuration file "programs_list.txt"
+      Progress, Off
+      Run, %file_path%
+      WinActivate, A
+      Sleep 200
+      Send ^f
+      SendInput %A_LoopField%
+      Send {Enter}
+      Sleep 100
+      Send {Escape}
+      ExitApp
+    }
+  Progress, %part% 
+  }
+
+  part += %part2%
+  Sleep %second_delay%
 }
-catch e
-{
-Progress, Off
-Progress, b FM11 fs10 CBRed CWGray CTBlack w500, Invalid path or filename`r`n`r`n%A_LoopField%, Cannot Open, Opening, Verdana
-Progress, %part%
-WinMove, Opening, , 0, 0
-MsgBox, 262160, ,Error:`r`nCannot continue because of invalid path or filename at:`r`n`r`n%A_LoopField%`r`n`r`nSolution:`r`nCorrect or remove the invalid path/filename in your configuration file "programs_list.txt"
-Progress, Off
-Run, %file_path%
-WinActivate, A
-Sleep 200
-Send ^f
-SendInput %A_LoopField%
-Send {Enter}
-Sleep 100
-Send {Escape}
-ExitApp
-}
-Progress, %part%
-}
-part += %part2%
-Sleep %second_delay%
-}
+
 Progress, Off
 ExitApp
 return
+
 :*:exit1::
 ExitApp
 return
