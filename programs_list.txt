@@ -1,0 +1,6 @@
+firefox.exe https://google.com/ https://bing.com 
+chrome.exe https://google.com/ https://bing.com
+chrome.exe https://google.com/ https://bing.com
+C:\Users\username\Documents\some_spreadsheet.xlsx
+Outlook.exe
+C:\Program Files (x86)\Notepad++\notepad++.exe
